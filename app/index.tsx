@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Yup from 'yup';
 import { EmployeeForm } from '../components/EmployeeForm';
-import SignInForm from '../components/SignInForm';
+import { SignInForm } from '../components/SignInForm';
 import { SignUpForm } from '../components/SignUpForm';
 
 
