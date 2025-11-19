@@ -1,4 +1,4 @@
-import { commonStyles, EmployeeValidationSchema, GRADIENTS } from '@/app';
+import { commonStyles, EmployeeValidationSchema, GRADIENTS } from '../app/index';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Formik } from 'formik';
 import React from 'react';
@@ -69,7 +69,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onBack }) => {
                         icon=''
                         placeholder='Software Development'
                         value={values.program}
-                        onChangeText={handleChange('progam')}
+                        onChangeText={handleChange('program')}
                         onBlur={handleBlur('program')}
                         error={errors.program}
                         touched={touched.program}/>
