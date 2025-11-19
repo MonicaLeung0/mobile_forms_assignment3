@@ -1,9 +1,9 @@
-import React from "react";
-import { ScrollView, Text, TouchableOpacity, Alert } from "react-native";
-import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
+import { Formik } from "formik";
+import React from "react";
+import { Alert, ScrollView, Text, TouchableOpacity } from "react-native";
+import { commonStyles, GRADIENTS, SignInValidationSchema } from "../app/index";
 import { FormInput } from "./FormInput";
-import { SignInValidationSchema, commonStyles, GRADIENTS } from "../app/index";
 
 interface SignInFormProps {
   onBack: () => void;
@@ -14,9 +14,10 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onBack }) => {
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={SignInValidationSchema}
-      onSubmit={(values) => {
+      onSubmit={(values, {resetForm}) => {
         Alert.alert("Success", `Welcome back, ${values.email}!`);
         console.log("Sign In Data:", values);
+        resetForm();
       }}
     >
       {({
