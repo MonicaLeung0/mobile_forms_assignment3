@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Yup from 'yup';
 import { EmployeeForm } from '../components/EmployeeForm';
 import SignInForm from '../components/SignInForm';
-import SignUpForm from '../components/SignUpForm';
+import { SignUpForm } from '../components/SignUpForm';
 
 
 export const EmployeeValidationSchema = Yup.object().shape({
@@ -58,7 +58,7 @@ export const GRADIENTS = {
   signUp: ['#ffa500', '#ffd700', '#ffed4e'],
   header: ['#ff6b9d', '#a770ef', '#fdb99b']
   
-};
+} as const;
 
 export const commonStyles = StyleSheet.create({
   formContainer: {
