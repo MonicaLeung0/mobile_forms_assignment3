@@ -1,9 +1,10 @@
+import { SignInValidationSchema } from "@/app";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import React from "react";
 import { Alert, ScrollView, Text, TouchableOpacity } from "react-native";
-import { commonStyles, GRADIENTS, SignInValidationSchema } from "../app/index";
 import { FormInput } from "./FormInput";
+import { commonStyles, GRADIENTS } from "./styles";
 
 interface SignInFormProps {
   onBack: () => void;

@@ -1,9 +1,10 @@
-import React from "react";
-import { ScrollView, Text, TouchableOpacity, Alert } from "react-native";
-import { Formik } from "formik";
+import { SignUpValidationSchema } from "@/app";
 import { LinearGradient } from "expo-linear-gradient";
+import { Formik } from "formik";
+import React from "react";
+import { Alert, ScrollView, Text, TouchableOpacity } from "react-native";
 import { FormInput } from "./FormInput";
-import { SignUpValidationSchema, commonStyles, GRADIENTS } from "../app/index";
+import { commonStyles, GRADIENTS } from "./styles";
 
 interface SignUpFormProps {
   onBack: () => void;
