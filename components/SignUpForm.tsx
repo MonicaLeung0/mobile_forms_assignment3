@@ -1,30 +1,63 @@
-import { SignUpValidationSchema } from "@/app";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import React from "react";
-import { Alert, ScrollView, Text, TouchableOpacity } from "react-native";
+import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import * as Yup from "yup";
 import { FormInput } from "./FormInput";
 import { commonStyles, GRADIENTS } from "./styles";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 interface SignUpFormProps {
   onBack: () => void;
 }
+interface SignUpFormValues {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+const signUpSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().min(6, "Min 6 characters").required("Password required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], "Passwords must match")
+    .required("Confirm your password"),
+});
+
 
 export const SignUpForm: React.FC<SignUpFormProps> = ({ onBack }) => {
+ const [firebaseError, setFirebaseError] = React.useState<string | null>(null);
+
+  const handleSignUp = async (values: SignUpFormValues) => {
+    try {
+      setFirebaseError(null);
+
+      // Create account in Firebase
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      // await createUserWithEmailAndPassword(auth, "test@gmail.com", "12345678");
+
+      // Only show success if Firebase account is created
+      Alert.alert("✅ Success", `Account created for ${values.name}!`);
+      console.log("User signed up:", values.email);
+
+    } catch (error: any) {
+      setFirebaseError(error.message || "Sign Up Failed");
+    }
+  };
+
   return (
-    <Formik
+    <Formik<SignUpFormValues>
       initialValues={{
         name: "",
         email: "",
         password: "",
         confirmPassword: "",
       }}
-      validationSchema={SignUpValidationSchema}
-      onSubmit={(values, { resetForm }) => {
-        Alert.alert("Success", `Account created for ${values.name}!`);
-        console.log("Sign Up Data:", values);
-        resetForm();
-      }}
+      validationSchema={signUpSchema}
+      onSubmit={handleSignUp}
     >
       {({
         handleChange,
@@ -63,7 +96,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onBack }) => {
           <FormInput
             label="Password"
             icon="🔒"
-            placeholder="Min 8 chars, 1 uppercase, 1 number"
+            placeholder="Min 6 characters"
             value={values.password}
             onChangeText={handleChange("password")}
             onBlur={handleBlur("password")}
@@ -84,10 +117,15 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onBack }) => {
             secureTextEntry
           />
 
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={commonStyles.button}
-          >
+          {/* Firebase Error Display */}
+          {firebaseError && (
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: "red", textAlign: "center" }}>⚠️ {firebaseError}</Text>
+            </View>
+          )}
+
+          {/* Submit Button */}
+          <TouchableOpacity onPress={() => handleSubmit()} style={commonStyles.button}>
             <LinearGradient
               colors={GRADIENTS.signUp}
               style={commonStyles.gradient}

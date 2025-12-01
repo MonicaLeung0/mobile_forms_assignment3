@@ -2,24 +2,45 @@ import { SignInValidationSchema } from "@/app";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import React from "react";
-import { Alert, ScrollView, Text, TouchableOpacity } from "react-native";
+import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { FormInput } from "./FormInput";
 import { commonStyles, GRADIENTS } from "./styles";
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 interface SignInFormProps {
   onBack: () => void;
 }
 
 export const SignInForm: React.FC<SignInFormProps> = ({ onBack }) => {
+  const [firebaseError, setFirebaseError] = React.useState<string | null>(null);
+
+  const handleLogin = async (values: { email: string; password: string }) => {
+    try {
+      setFirebaseError(null);
+
+      // 🔐 Firebase sign-in call
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+
+      // ✅ Success message only if login works
+      Alert.alert("🎉 Login Successful", "Welcome back!");
+      console.log("User signed in:", values.email);
+
+      // Optional redirect after sign-in
+      const router = require("expo-router").useRouter();
+      router.replace("/home"); // change the path if needed
+
+    } catch (error: any) {
+      setFirebaseError(error.message || "Login Failed");
+    }
+  };
+
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={SignInValidationSchema}
-      onSubmit={(values, {resetForm}) => {
-        Alert.alert("Success", `Welcome back, ${values.email}!`);
-        console.log("Sign In Data:", values);
-        resetForm();
-      }}
+      onSubmit={handleLogin}
     >
       {({
         handleChange,
@@ -56,10 +77,15 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onBack }) => {
             secureTextEntry
           />
 
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={commonStyles.button}
-          >
+          {/* Firebase Error Display */}
+          {firebaseError && (
+            <View style={{ marginBottom: 10, padding: 6 }}>
+              <Text style={{ color: "red", textAlign: "center" }}>⚠️ {firebaseError}</Text>
+            </View>
+          )}
+
+         {/* Submit Button */}
+          <TouchableOpacity onPress={() => handleSubmit()} style={commonStyles.button}>
             <LinearGradient
               colors={GRADIENTS.signIn}
               style={commonStyles.gradient}

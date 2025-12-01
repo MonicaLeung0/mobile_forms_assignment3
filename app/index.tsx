@@ -3,7 +3,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Yup from 'yup';
-import { EmployeeForm } from '../components/EmployeeForm';
 import { SignInForm } from '../components/SignInForm';
 import { SignUpForm } from '../components/SignUpForm';
 
@@ -55,12 +54,12 @@ export const SignUpValidationSchema = Yup.object().shape({
 
 
 export default function Index() {
-  const [currentScreen, setCurrentScreen] = useState<'menu' | 'employee' | 'signin' | 'signup'>('menu');
+  const [currentScreen, setCurrentScreen] = useState<'menu' | 'signin' | 'signup'>('menu');
 
-  if (currentScreen === 'employee') {
-    return <EmployeeForm onBack={() => setCurrentScreen('menu')} />;
+  // if (currentScreen === 'employee') {
+  //   return <EmployeeForm onBack={() => setCurrentScreen('menu')} />;
 
-  }
+  // }
   if (currentScreen === 'signin') {
     return <SignInForm onBack={() => setCurrentScreen('menu')} />;
   }
@@ -82,7 +81,7 @@ export default function Index() {
         </LinearGradient>
 
         <View style={styles.menuContainer}>
-          <TouchableOpacity 
+          {/* <TouchableOpacity 
           onPress={() => setCurrentScreen('employee')}
           style={styles.menuButton}>
             <LinearGradient
@@ -93,7 +92,7 @@ export default function Index() {
                 <Text style={styles.menuIcon}></Text>
                 <Text style={styles.menuButtonText}>Employee Information</Text>
               </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={() => setCurrentScreen('signin')}
