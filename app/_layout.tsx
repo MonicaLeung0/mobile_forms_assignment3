@@ -1,8 +1,8 @@
+import { useAuth } from "@/hooks/useAuth";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect } from "react";
-import { auth } from "../lib/firebase"; 
-import { useAuth } from "@/hooks/useAuth"; 
+import { auth } from "../lib/firebase";
 
 export default function Layout() {
   const { user } = useAuth();
@@ -16,7 +16,7 @@ export default function Layout() {
         router.replace("/");
       }
       if (u && inAuthPage) {
-        router.replace("/home");
+        router.replace("./home");
       }
     });
     return unsubscribe;

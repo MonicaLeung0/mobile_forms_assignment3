@@ -37,13 +37,21 @@ export default function Home() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => router.push("/employeeList")}
+            onPress={() => router.push("./employeeList")}
             style={styles.menuButton}
           >
             <LinearGradient colors={GRADIENTS.employee} style={styles.gradient}>
               <Text style={styles.menuButtonText}>View Employees</Text>
             </LinearGradient>
           </TouchableOpacity>
+
+          <TouchableOpacity 
+            onPress={() => router.push("./profile")}
+            style={styles.menuButton}>
+              <LinearGradient colors={GRADIENTS.employee} style={styles.gradient}>
+                <Text style={styles.menuButtonText}>Profile</Text>
+              </LinearGradient>
+            </TouchableOpacity>
         </View>
       </View>
     );

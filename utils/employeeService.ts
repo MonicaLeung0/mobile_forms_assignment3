@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 
 const EMPLOYEE_COLLECTION = "employees";
 
@@ -22,6 +22,11 @@ export const getEmployees = async () => {
 };
 
 // Delete employee (Member 3 can use this later)
-export const deleteEmployee = async (id: string) => {
-  await deleteDoc(doc(db, EMPLOYEE_COLLECTION, id));
+export async function deleteEmployee(id:string) {
+  try {
+    await deleteDoc(doc(db,"employees",id));
+  } catch (error) {
+    console.error("Error deleting employee.",error); 
+    throw error;
+}
 };
