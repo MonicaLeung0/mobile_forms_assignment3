@@ -1,11 +1,10 @@
-import { EmployeeValidationSchema } from "@/app";
+import { addEmployee } from "@/utils/employeeService";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import React from "react";
 import { Alert, ScrollView, Text, TouchableOpacity } from "react-native";
 import { FormInput } from "./FormInput";
 import { commonStyles, GRADIENTS } from "./styles";
-import { addEmployee } from "@/utils/employeeService";
 
 interface EmployeeFormProps {
   onBack: () => void;

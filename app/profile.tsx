@@ -44,6 +44,10 @@ export default function Profile() {
                 <Text style={styles.logoutText}>Logout</Text>
               </LinearGradient>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.back()}>
+            <Text style={styles.backText}>Go Back</Text>
+          </TouchableOpacity>
       </View>
     );
 }
